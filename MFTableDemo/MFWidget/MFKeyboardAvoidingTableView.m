@@ -2,8 +2,10 @@
 //  MFKeyboardAvoidingTableView.m
 //  MFTableDemo
 //
-//  Created by Midfar Sun on 4/16/15.
-//  Copyright (c) 2015 Midfar Sun. All rights reserved.
+//  Created by Michael Tyson on 30/09/2013.
+//  Copyright 2013 A Tasty Pixel. All rights reserved.
+//
+//  Modified by Midfar Sun on 4/16/15.
 //
 
 #import "MFKeyboardAvoidingTableView.h"
