@@ -47,7 +47,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     isSupportInsert = YES;
     isSupportMove = YES;
-    isSupportMutiDelete = NO;
+    isSupportMutiDelete = YES;
     dataArr = [NSMutableArray arrayWithArray:@[@"A", @"B", @"C", @"D", @"E", @"F", @"G",
                                                @"H", @"I", @"J", @"K", @"L", @"M", @"N",
                                                @"O", @"P", @"Q", @"R", @"S", @"T",
@@ -183,10 +183,8 @@
 {
     NSLog(@"whenInsertTableView dataArr=%@", [dataArr JSONString2]);
     //dataArr最后一项是空字符串占位符
-    MFTextTableViewCell *cell = (MFTextTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    NSString *text = [cell getMText];
-    [dataArr insertObject:text atIndex:indexPath.row];
     NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:(indexPath.row+1) inSection:0];
+    [dataArr insertObject:@"" atIndex:newIndexPath.row];
     [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
     //NSLog(@"whenInsertTableView center dataArr=%@", [dataArr JSONString2]);
     
@@ -257,7 +255,7 @@
             [self.view endEditing:YES];
         }
     }
-    NSLog(@"dataArr=%@", [dataArr JSONString2]);
+    NSLog(@"textFieldShouldReturn: dataArr=%@", [dataArr JSONString2]);
 }
 
 - (void)mfTextTableViewCell:(MFTextTableViewCell *)cell textFieldValueChanged:(NSString *)text
