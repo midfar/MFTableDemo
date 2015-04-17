@@ -13,7 +13,7 @@
 @interface ViewController ()<MFTextTableViewCellDelegate>
 {
     /**
-     是否支持插入；如果是，那么编辑状态下最后一项可编辑
+     是否支持插入；如果是，那么编辑状态下最后一项可用于添加数据
      */
     BOOL isSupportInsert;
     /**
@@ -152,6 +152,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //when the keyboard is showing, indexPath will be lost if the cell move one place to another
     MFTextTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     if (cell==nil) {
         NSLog(@"[ERROR] cell==nil");
@@ -188,7 +189,7 @@
 - (void)whenInsertTableView:(UITableView *)tableView forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"whenInsertTableView dataArr=%@", [dataArr JSONString2]);
-    //dataArr最后一项是空字符串占位符
+    //insert placeholder @"" in dataArr
     NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:(indexPath.row+1) inSection:0];
     [dataArr insertObject:@"" atIndex:newIndexPath.row];
     [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -204,7 +205,7 @@
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //当前行在编辑状态时移动会造成数据错误
+    //当前行在编辑状态时移动会造成UI显示问题
     if (isSupportMove && keyboardIsShown){
         return NO;
     }
@@ -255,7 +256,7 @@
         [CATransaction commit];
         
     }else{
-        if (endEdit==NO) {
+        if (isSupportInsert && endEdit==NO) {
             [self whenInsertTableView:mTableView forRowAtIndexPath:indexPath];
         }else{
             [self.view endEditing:YES];
