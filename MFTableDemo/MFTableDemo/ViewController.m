@@ -212,6 +212,14 @@
     return isSupportMove;
 }
 
+- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
+{
+    if (keyboardIsShown) {//键盘显示时，不能移动
+        return sourceIndexPath;
+    }
+    return proposedDestinationIndexPath;
+}
+
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
     NSLog(@"tableView:moveRowAtIndexPath:%zd toIndexPath:%zd", sourceIndexPath.row, destinationIndexPath.row);
