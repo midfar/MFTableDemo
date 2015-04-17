@@ -85,7 +85,7 @@
 
 -(void)MF_keyboardWillHide:(NSNotification *)notification
 {
-    self.showsReorderControl = YES;
+    self.showsReorderControl = _mIsSupportMove;
 }
 
 #pragma mark - Function

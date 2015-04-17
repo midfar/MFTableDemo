@@ -21,6 +21,10 @@
      */
     BOOL isSupportMove;
     /**
+     是否支持单个删除
+     */
+    BOOL isSupportSingleDelete;
+    /**
      是否支持多选删除；如果是，那么编辑状态下cell左侧有复选框，导航栏左上有删除按钮
      */
     BOOL isSupportMutiDelete;
@@ -47,6 +51,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     isSupportInsert = YES;
     isSupportMove = YES;
+    isSupportSingleDelete = YES;
     isSupportMutiDelete = YES;
     dataArr = [NSMutableArray arrayWithArray:@[@"A", @"B", @"C", @"D", @"E", @"F", @"G",
                                                @"H", @"I", @"J", @"K", @"L", @"M", @"N",
@@ -156,6 +161,7 @@
     //[cell setRow:indexPath.row count:dataArr.count];
     [cell setMText:text];
     [cell setMEditing:editButton.isSelected];
+    [cell setMIsSupportMove:isSupportMove];
     return cell;
 }
 
@@ -300,7 +306,10 @@
     //        return UITableViewCellEditingStyleInsert;
     //    }
     //}
-    return UITableViewCellEditingStyleDelete;
+    if (isSupportSingleDelete) {
+        return UITableViewCellEditingStyleDelete;
+    }
+    return UITableViewCellEditingStyleNone;
 }
 
 @end

@@ -28,6 +28,7 @@
 @property(nonatomic, assign)id<MFTextTableViewCellDelegate> delegate;
 
 @property(nonatomic, assign)BOOL mEditing;
+@property(nonatomic, assign)BOOL mIsSupportMove;
 
 - (void)setMText:(NSString *)text;
 - (NSString *)getMText;
