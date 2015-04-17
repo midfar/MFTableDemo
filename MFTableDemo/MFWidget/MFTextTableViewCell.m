@@ -80,7 +80,7 @@
 -(void)MF_keyboardWillShow:(NSNotification *)notification
 {
     //当前行在编辑状态时移动会造成数据错误，所以编辑状态不让移动cell
-    self.showsReorderControl = NO;//no effect in iOS7.1
+    self.showsReorderControl = NO;//no effect in iOS7.1 simulator
 }
 
 -(void)MF_keyboardWillHide:(NSNotification *)notification

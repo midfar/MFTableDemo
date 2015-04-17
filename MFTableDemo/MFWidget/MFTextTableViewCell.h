@@ -12,7 +12,7 @@
 @protocol MFTextTableViewCellDelegate <NSObject>
 
 /**
- 用户点了回车
+ 用户点击了键盘的[回车]按钮
  */
 -(void)mfTextTableViewCell:(MFTextTableViewCell *)cell textFieldShouldReturn:(NSString *)text;
 /**

@@ -159,7 +159,6 @@
     }
     NSString *text = [dataArr objectAtIndex:indexPath.row];
     cell.delegate = self;
-    //[cell setRow:indexPath.row count:dataArr.count];
     [cell setMText:text];
     [cell setMEditing:editButton.isSelected];
     [cell setMIsSupportMove:isSupportMove];
@@ -177,8 +176,6 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [dataArr removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        //[tableView reloadData];
-        //[tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.2];
         
     }else if(editingStyle == UITableViewCellEditingStyleInsert){
         [self whenInsertTableView:tableView forRowAtIndexPath:indexPath];
@@ -227,10 +224,6 @@
     [dataArr removeObjectAtIndex:sourceIndexPath.row];
     [dataArr insertObject:oldValue atIndex:destinationIndexPath.row];
     NSLog(@"moveRowAtIndexPath dataArr=%@", [dataArr JSONString2]);
-    //[tableView reloadData];//这里reload一次，避免找下一个cell的位置不对
-    //reload前要获取最新的值
-    //[tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.2];
-    //NOTICE:调用reloadData会导致前面的复选框消失;会导致隐藏键盘，最后一个值会保存错位
 }
 
 #pragma mark - MFTextTableViewCellDelegate
