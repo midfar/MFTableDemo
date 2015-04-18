@@ -103,9 +103,9 @@
     editButton.selected = !isSelected;
     if (isSupportMutiDelete) {
         deleteButton.hidden = isSelected;
+        [selectedRow removeAllIndexes];
     }
     [mTableView setEditing:!isSelected animated:YES];
-    [selectedRow removeAllIndexes];
     NSLog(@"editButtonClicked, dataArr=%@", [dataArr JSONString2]);
 }
 
@@ -210,9 +210,14 @@
     [dataArr removeObjectAtIndex:sourceIndexPath.row];
     [dataArr insertObject:oldValue atIndex:destinationIndexPath.row];
     NSLog(@"moveRowAtIndexPath dataArr=%@", [dataArr JSONString2]);
-    BOOL keyboardVisible = mTableView.keyboardAvoidingState.keyboardVisible;
-    if (keyboardVisible) {//键盘显示时，移动后会造成UI显示问题，需要reloadData
+    if (isSupportMutiDelete && selectedRow.count!=0) {//如果移动前有选中项，移动后都重置数据，避免索引不正确
+        [selectedRow removeAllIndexes];
         [tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.2];
+    }else{
+        BOOL keyboardVisible = mTableView.keyboardAvoidingState.keyboardVisible;
+        if (keyboardVisible) {//键盘显示时，移动后会造成UI显示问题，需要reloadData
+            [tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.2];
+        }
     }
 }
 
@@ -281,7 +286,9 @@
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         
     }else{//编辑模式，需要记住被选中的索引
-        [selectedRow addIndex:indexPath.row];
+        if (isSupportMutiDelete) {
+            [selectedRow addIndex:indexPath.row];
+        }
     }
 }
 
@@ -292,7 +299,9 @@
         //do nothing
         
     }else{//编辑模式，需要移除被选中的索引
-        [selectedRow removeIndex:indexPath.row];
+        if (isSupportMutiDelete) {
+            [selectedRow removeIndex:indexPath.row];
+        }
     }
 }
 
