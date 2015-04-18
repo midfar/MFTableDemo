@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MFKeyboardAvoidingTableView.h"
 
 @interface ViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *mTableView;
+@property (weak, nonatomic) IBOutlet MFKeyboardAvoidingTableView *mTableView;
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
 @property (weak, nonatomic) IBOutlet UIButton *deleteButton;
 

@@ -29,8 +29,6 @@
      */
     BOOL isSupportMutiDelete;
     
-    BOOL keyboardIsShown;
-    
     NSMutableArray *dataArr;//列表数据
     NSMutableIndexSet *selectedRow;//被选中的索引列表，用于数据删除
 }
@@ -41,12 +39,12 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    NSLog(@"ViewController dealloc");
 }
 
 - (void)viewDidLoad
 {
+    NSLog(@"ViewController viewDidLoad");
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     isSupportInsert = YES;
@@ -59,27 +57,12 @@
                                                @"U", @"V", @"W", @"X", @"Y", @"Z"]];
     selectedRow = [NSMutableIndexSet indexSet];
     mTableView.allowsMultipleSelectionDuringEditing = isSupportMutiDelete;
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Notification
--(void)keyboardWillShow:(NSNotification *)notification
-{
-    keyboardIsShown = YES;
-}
-
--(void)keyboardWillHide:(NSNotification *)notification
-{
-    keyboardIsShown = NO;
 }
 
 #pragma mark - Function
@@ -202,20 +185,23 @@
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //当前行在编辑状态时移动会造成UI显示问题
-    if (isSupportMove && keyboardIsShown){
-        return NO;
-    }
+    //当前行在编辑状态时移动会造成UI显示问题，需要reloadData
+    //BOOL keyboardVisible = mTableView.keyboardAvoidingState.keyboardVisible;
+    //if (isSupportMove && keyboardVisible){
+    //    return NO;
+    //}
     return isSupportMove;
 }
 
-- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
-{
-    if (keyboardIsShown) {//键盘显示时，不能移动
-        return sourceIndexPath;
-    }
-    return proposedDestinationIndexPath;
-}
+//- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
+//{
+//    BOOL keyboardVisible = mTableView.keyboardAvoidingState.keyboardVisible;
+//    if (keyboardVisible) {//键盘显示时，移动后会造成UI显示问题
+//        //或者直接禁止移动
+//        return sourceIndexPath;
+//    }
+//    return proposedDestinationIndexPath;
+//}
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
@@ -224,6 +210,10 @@
     [dataArr removeObjectAtIndex:sourceIndexPath.row];
     [dataArr insertObject:oldValue atIndex:destinationIndexPath.row];
     NSLog(@"moveRowAtIndexPath dataArr=%@", [dataArr JSONString2]);
+    BOOL keyboardVisible = mTableView.keyboardAvoidingState.keyboardVisible;
+    if (keyboardVisible) {//键盘显示时，移动后会造成UI显示问题，需要reloadData
+        [tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.2];
+    }
 }
 
 #pragma mark - MFTextTableViewCellDelegate

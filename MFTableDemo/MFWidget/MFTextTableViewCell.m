@@ -20,8 +20,8 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    //[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    //[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -58,8 +58,8 @@
     [self setMEditing:NO];
     _mTextField.returnKeyType = UIReturnKeyDefault;
     _mTextField.delegate = self;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(MF_keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(MF_keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(MF_keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(MF_keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)setEditing:(BOOL)editing
@@ -76,17 +76,17 @@
     [self setMEditing:editing];
 }
 
-#pragma mark - Notification
--(void)MF_keyboardWillShow:(NSNotification *)notification
-{
-    //当前行在编辑状态时移动会造成数据错误，所以编辑状态不让移动cell
-    self.showsReorderControl = NO;//no effect in iOS7.1 simulator
-}
-
--(void)MF_keyboardWillHide:(NSNotification *)notification
-{
-    self.showsReorderControl = _mIsSupportMove;
-}
+//#pragma mark - Notification
+//-(void)MF_keyboardWillShow:(NSNotification *)notification
+//{
+//    //当前行在编辑状态时移动会造成数据错误，所以编辑状态不让移动cell
+//    self.showsReorderControl = NO;//no effect in iOS7.1 simulator
+//}
+//
+//-(void)MF_keyboardWillHide:(NSNotification *)notification
+//{
+//    self.showsReorderControl = _mIsSupportMove;
+//}
 
 #pragma mark - Function
 - (void)setMText:(NSString *)text

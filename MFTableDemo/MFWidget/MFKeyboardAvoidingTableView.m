@@ -17,15 +17,6 @@ static const CGFloat kMinimumScrollOffsetPadding = 20;
 static const int kStateKey;
 #define _UIKeyboardFrameEndUserInfoKey (&UIKeyboardFrameEndUserInfoKey != NULL ? UIKeyboardFrameEndUserInfoKey : @"UIKeyboardBoundsUserInfoKey")
 
-@interface MFKeyboardAvoidingState : NSObject
-@property (nonatomic, assign) UIEdgeInsets priorInset;
-@property (nonatomic, assign) UIEdgeInsets priorScrollIndicatorInsets;
-@property (nonatomic, assign) BOOL         keyboardVisible;
-@property (nonatomic, assign) CGRect       keyboardRect;
-@property (nonatomic, assign) CGSize       priorContentSize;
-
-@property (nonatomic) BOOL priorPagingEnabled;
-@end
 @implementation MFKeyboardAvoidingState
 @end
 
